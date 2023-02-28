@@ -54,3 +54,60 @@ class Calculator(QWidget):
         grid.addWidget(self.btn_clear, 4, 2)
         grid.addWidget(self.btn_divide, 4, 3)
         grid.addWidget(self.btn_equals, 5, 0, 1, 4)
+
+        # Назначение действий для кнопок        
+        self.btn_0.clicked.connect(lambda: self.press("0"))
+        self.btn_1.clicked.connect(lambda: self.press("1"))
+        self.btn_2.clicked.connect(lambda: self.press("2"))
+        self.btn_3.clicked.connect(lambda: self.press("3"))
+        self.btn_4.clicked.connect(lambda: self.press("4"))
+        self.btn_5.clicked.connect(lambda: self.press("5"))
+        self.btn_6.clicked.connect(lambda: self.press("6"))
+        self.btn_7.clicked.connect(lambda: self.press("7"))
+        self.btn_8.clicked.connect(lambda: self.press("8"))
+        self.btn_9.clicked.connect(lambda: self.press("9"))
+        self.btn_decimal.clicked.connect(lambda: self.press("."))
+        self.btn_clear.clicked.connect(self.clear)
+        self.btn_add.clicked.connect(lambda: self.press("+"))
+        self.btn_subtract.clicked.connect(lambda: self.press("-"))
+        self.btn_multiply.clicked.connect(lambda: self.press("*"))
+        self.btn_divide.clicked.connect(lambda: self.press("/"))
+        self.btn_equals.clicked.connect(self.calculate)
+# Создание вертикального макета и добавление сетки в него       
+        vbox = QVBoxLayout()
+        vbox.addLayout(grid)
+
+        # Установка макета для виджета        
+        self.setLayout(vbox)
+
+        # Настройка параметров окна        
+        self.setGeometry(300, 300, 300, 200)
+        self.setWindowTitle("Calculator")
+        self.show()
+
+    def press(self, key):
+        text = self.line.text()
+
+        # Добавление нажатой кнопки к тексту        
+        text += key
+
+        # Установка нового текста в текстовое поле        
+        self.line.setText(text)
+
+    def clear(self):
+        self.line.setText("")
+
+    def calculate(self):
+        text = self.line.text()
+
+        try:
+            result = str(eval(text))
+
+            self.line.setText(result)
+
+        except:
+            self.line.setText("Error")
+if __name__ == "__main__":
+    app = QApplication([])
+    calc = Calculator()
+    sys.exit(app.exec_())
